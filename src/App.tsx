@@ -1,14 +1,14 @@
-import Dice from "@/components/Dice"
+import Dice from "@/components/Dice/Dice";
 
 function App() {
   
+
   return (
-    
-    <>
+    <div>
       <h1>Dice Roller</h1>
-      <Dice/>
-    </>
-  )
+      <Dice />
+    </div>
+  );
 }
 
-export default App
+export default App;
