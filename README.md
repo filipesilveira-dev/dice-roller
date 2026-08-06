@@ -1,75 +1,73 @@
-# React + TypeScript + Vite
+# 🎲 Dice Roller
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Objetivo:** possibilitar que um dado gere um valor aleatório ao ser jogado (clique de botão).
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# 📋 Tecnologias utilizadas
 
-## React Compiler
+- HTML
+- CSS
+- JavaScript
+- Vite (ferramenta de build)
+- React 19 (biblioteca JS)
+- Typescript
+- ESLint
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+# 📥 Instalação
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Clone o repositório do projeto:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+git clone https://github.com/filipesilveira-dev/dice-roller
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Instale as dependências:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
+
+---
+
+# ▶️ Executando o projeto
+
+
+
+---
+
+# 🧪 Qualidade de Código
+
+Executar a análise estática do código:
+
+```bash
+npm run lint
+```
+
+---
+
+# História do projeto
+
+A ideia do projeto vem após revisitar repositórios antigos em me deparar com o "Jogo do Bruxo" <https://github.com/filipesilveira-dev/Jogo-do-Bruxo> que consite em um jogo de adivinhação. É gerado um número aleatório o qual o usuário, podendo dar até 10 palpites, tenta adivinhar qual é. ´Trata-se de uma aplicação simples, mas que traz uma lógica em JavaScript de tratamento de inputs do usuário, geração de números aleátorios e retorno visual (UI) interesstante.
+Partindo da premissa de geração aleatória de números, veio a ideia de pensar em algo que tivesse um potencial maior de impanto prático para o usuário. Amante de jogos de tabuleiro, decidi transformar em um "Dice Roller (Jogador de dados)" que pode ser utilizado em jogos de tabuleiro em geral. Inicialmente, trata-se de apenas um dados de seis faces. Porém, a ideia é **construir a aplicação de maneira escalonável**, visando a **amplição do número de dados utilizados ao mesmo tempo**, gerando um número aleatório em cada, bem como **ampliação da quantidade de faces que cada um deve ter**, aumentando a aplicabilidade do projeto para amantes de RPG (Role-Playing Game).
+
+# 📌 Objetivo do projeto
+
+Este projeto demonstrar conhecimento sobre as tecnologias utilizadas no projeto, contemplando:
+
+- React 
+- Typescript
+
+# Aprendizados
+
+- **Versionamento semântico:** convenção formal para atribuição de números de versão a softwares, bibliotecas e APIs
+
+---
+
+## Captura de tela
+
+# 👨‍💻 Autor
+
+**Filipe P. Silveira**
