@@ -1,14 +1,30 @@
+/* estiliza a estrutura do dado */
 .dice {
   width: 90px;
   height: 90px;
   border: 2px solid #333;
   border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: bold;
-  font-family: sans-serif;
+
+  /* estrutura do dado em uma matriz 3x3 */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  padding: 10px;
+  box-sizing: border-box;
+
   background-color: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* estiliza o ponto do dado */
+.dot {
+  width: 14px;
+  height: 14px;
+
+  border-radius: 50%;
+  background-color: #333;
+
+  justify-self: center;
+  align-self: center;
 }
