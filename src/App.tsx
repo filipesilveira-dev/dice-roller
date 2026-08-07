@@ -6,7 +6,7 @@ function App() {
   return (
     <div>
       <h1>Dice Roller</h1>
-      <Dice />
+      <Dice faces={6} />
     </div>
   );
 }

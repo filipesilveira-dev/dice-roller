@@ -1,3 +1,4 @@
+// botão reaproveitável
 interface ButtonPros{
     onRollDice: ()=> void
 }
