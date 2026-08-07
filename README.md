@@ -55,15 +55,17 @@ Partindo da premissa de geração aleatória de números, veio a ideia de pensar
 
 # 📌 Objetivo do projeto
 
-Este projeto demonstrar conhecimento sobre as tecnologias utilizadas no projeto, contemplando:
+Este projeto demonstrar conhecimento ou noções sobre as tecnologias utilizadas no projeto, contemplando:
 
 - React 
 - Typescript
+- ESLint
+- Motion
 
 # Aprendizados
 
 - **Versionamento semântico:** convenção formal para atribuição de números de versão a softwares, bibliotecas e APIs
-
+- **useRef():** hook do React que permite manter um valor entre renderizações sem provocar uma nova renderização quando esse valor muda. Utilizado em "pendingResult" para "guardar" o novo valor do dado durante a animação. A UI só atualiza ao final.
 ---
 
 ## Captura de tela
