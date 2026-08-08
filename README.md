@@ -66,6 +66,8 @@ Este projeto demonstrar conhecimento ou noções sobre as tecnologias utilizadas
 
 - **Versionamento semântico:** convenção formal para atribuição de números de versão a softwares, bibliotecas e APIs
 - **useRef():** hook do React que permite manter um valor entre renderizações sem provocar uma nova renderização quando esse valor muda. Utilizado em "pendingResult" para "guardar" o novo valor do dado durante a animação. A UI só atualiza ao final.
+- **União de literais:** utilizado para tipar as faces dos dados aceitos na aplicação. Estabelece um conjunto exato de valores específicos, como uma lista restrita de opções permitidas.
+
 ---
 
 ## Captura de tela

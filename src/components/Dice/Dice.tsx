@@ -3,9 +3,12 @@ import Button from "../Button/Button";
 import rollDice from "@/utils/rollDice";
 import { motion } from "motion/react";
 import "@/components/Dice/dice.css";
+// estabelece a quantidade de faces disponibiliuzadas pela aplição
+import type { DiceFaces } from "@/types/dice";
 
 interface DiceProps {
-  faces: number;
+  // só serão aceitos os dados com a quantidade de faces estabelecidas aqui
+  faces: DiceFaces;
 }
 
 interface Position {
@@ -13,6 +16,7 @@ interface Position {
   column: number;
 }
 
+// só deve ser utilizado se faces === 6
 const facePositions: Record<number, Position[]> = {
   1: [{ row: 2, column: 2 }],
 
@@ -59,7 +63,7 @@ export default function Dice({ faces }: DiceProps) {
   const pendingResult = useRef(number);
 
   function handleRoll() {
-    // previne várias chamadas ao mesmo tempo
+    // previne várias chamadas por cliques rápidos durante animação
     if (isRolling) {
       return;
     }
@@ -109,8 +113,9 @@ export default function Dice({ faces }: DiceProps) {
           }
         }}
       >
-        {/* Sendo assim, quando for clicado, um novo "number" será gerado. Supondo que seja gerado o número "4", então será selecionada a chave "4" de "facePositions" e positions" recebe um array com quatro "objetos", representando cada ponto do dado. No primeiro objeto de "positions" a ser mapeado, serão extraídos os valores das chaves "row" e "column", no caso respectivamente "1" e "1". Com isso será gerada um key única (exigÊncia do React) e em "style" definirão a linha e a coluna no componente Dice, estilizado como uma matriz 3x3, onde será criado o span; Aqui, no exemplo, seria na linha 1, coluna 1, pois o número "4" em bolinhas ocupar esse e mais outros três espaços. Se não houvesse a especificação em "style" seriam criadas quatro bolinhas, uma para cada objeto da chave de "positions" selecionada, mas uma seguida da outra, sem a correlação linha/coluna */}
-        {positions.map(({ row, column }) => (
+        {faces === 6 ? (
+            // {/* Sendo assim, quando for clicado, um novo "number" será gerado. Supondo que seja gerado o número "4", então será selecionada a chave "4" de "facePositions" e positions" recebe um array com quatro "objetos", representando cada ponto do dado. No primeiro objeto de "positions" a ser mapeado, serão extraídos os valores das chaves "row" e "column", no caso respectivamente "1" e "1". Com isso será gerada um key única (exigÊncia do React) e em "style" definirão a linha e a coluna no componente Dice, estilizado como uma matriz 3x3, onde será criado o span; Aqui, no exemplo, seria na linha 1, coluna 1, pois o número "4" em bolinhas ocupar esse e mais outros três espaços. Se não houvesse a especificação em "style" seriam criadas quatro bolinhas, uma para cada objeto da chave de "positions" selecionada, mas uma seguida da outra, sem a correlação linha/coluna */}
+        positions.map(({ row, column }) => (
           <span
             key={`${row}-${column}`}
             className="dot"
@@ -119,7 +124,11 @@ export default function Dice({ faces }: DiceProps) {
               gridColumn: column,
             }}
           />
-        ))}
+        ))
+
+        ) : (
+          <span className="number">{number}</span>
+        )}
       </motion.div>
 
       <Button onRollDice={handleRoll} />
