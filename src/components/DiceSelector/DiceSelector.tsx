@@ -9,6 +9,7 @@ interface DiceSelectorProps {
 const diceOptions: DiceFaces[] = [4, 6, 8, 10, 12, 20];
 
 export default function DiceSelector({ value, onChange }: DiceSelectorProps) {
+    
   return (
     <div>
       <h2>Selecione as faces do dado</h2>
