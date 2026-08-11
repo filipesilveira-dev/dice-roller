@@ -59,7 +59,7 @@ const facePositions: Record<number, Position[]> = {
 export default function Dice({ faces }: DiceProps) {
   const [number, setNumber] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
-
+  // guarda o valor gerado aleatório durante a animação e só atribui ao estado "number" ao final da animação com o "onAnimationComplete"
   const pendingResult = useRef(number);
 
   function handleRoll() {

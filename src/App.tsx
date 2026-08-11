@@ -1,32 +1,52 @@
 import Dice from "@/components/Dice/Dice";
-import { useState } from "react";
+//import { useState } from "react";
 import DiceSelector from "./components/DiceSelector/DiceSelector";
 //import type { DiceFaces } from "./types/dice";
 // evolução do DiceFaces. Cada dado terá o próprio "id" e "númerop de faces"
-import type { DiceConfig } from "./types/diceConfig";
+//import type { DiceConfig } from "./types/diceConfig";
+//import type { DiceFaces } from "./types/dice";
+import { useDiceStore } from "./store/useAppStore";
 
 function App() {
   // const [faces, setFaces] = useState<DiceConfig>(6); <-- ANTES
-  // estado que recebe um array de dados, possibilitando a utilização de múltiplos dados, cada uma com "id" e "faces" próprios
-  const [dice, setDice] = useState<DiceConfig[]>([
-    { id: "crypto.randomUUID()", faces: 6 }, { id: "crypto.randomUUID()", faces: 20 },
-  ]);
+ const dices = useDiceStore((state) => state.dices); 
+
+  // adiciona um novo objeto ao array "dice" por meio do seu setter
+  const addDice = useDiceStore(
+  (state) => state.addDice
+);
+
+  // gera novo array sem o dado com "id" passado como argumento
+  const removeDice = useDiceStore(
+  (state) => state.removeDice
+);
+
+// atualiza a quantidade de faces de um dados específico no array "dices"
+const updateDiceFaces = useDiceStore((state)=> state.updateDiceFaces)
 
   return (
     <div>
+
       <h1>Dice Roller 🎲</h1>
-      <DiceSelector
-        value={dice[0].faces}
-        onChange={(faces) =>
-          setDice((currentDice) =>
-            currentDice.map((d) => (d.id === dice[0].id ? { ...d, faces } : d)),
-          )
-        }
-      />
+      {dices.length === 0 && <p>Nenhum dado adicionado</p>}
+
+      <button type="button" onClick={()=>addDice()}>
+        Adicionar dado
+      </button>
+
       <div>
         {/* renderiza um dado para cada dado presente no estado (que é um array de objetos) "dice" */}
-        {dice.map((d) => (
-          <Dice key={d.id} faces={d.faces} />
+        {dices.map((d) => (
+          <div key={d.id}>
+            <DiceSelector
+              value={d.faces}
+              onChange={(faces) => updateDiceFaces(d.id, faces)}
+            />
+            <Dice faces={d.faces} />
+            <button type="button" onClick={() => removeDice(d.id)}>
+              Remover
+            </button>
+          </div>
         ))}
       </div>
     </div>
