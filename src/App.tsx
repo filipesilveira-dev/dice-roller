@@ -24,6 +24,11 @@ function App() {
 // atualiza a quantidade de faces de um dados específico no array "dices"
 const updateDiceFaces = useDiceStore((state)=> state.updateDiceFaces)
 
+// dispara o gatilho (rollId + 1) para rolar todos os dados
+const rollAll = useDiceStore((state) => state.rollAll);
+
+const rollId = useDiceStore((state) => state.rollId);
+
   return (
     <div>
 
@@ -49,6 +54,7 @@ const updateDiceFaces = useDiceStore((state)=> state.updateDiceFaces)
           </div>
         ))}
       </div>
+      <button type="button" onClick={()=>rollAll()}>Rolar os dados{rollId}</button>
     </div>
   );
 }

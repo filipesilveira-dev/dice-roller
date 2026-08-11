@@ -4,8 +4,9 @@ import type { DiceConfig } from "@/types/diceConfig";
 
 // Contrato de dados
 interface DiceStore {
-    // Dices, anteriormente em App, trata-se de um array de obetos, onde cada objeto recebe um id e uma quantidade de faces
+  // Dices, anteriormente em App, trata-se de um array de obetos, onde cada objeto recebe um id e uma quantidade de faces
   dices: DiceConfig[];
+  rollId: number;
 
   // Ações:
 
@@ -13,14 +14,18 @@ interface DiceStore {
   addDice: (faces?: DiceFaces) => void;
   // Função de remover recebe o "id" do dado a ser deletado
   removeDice: (id: string) => void;
-// Função que atualiza a quantidade de faces de um dado específico
+  // Função que atualiza a quantidade de faces de um dado específico
   updateDiceFaces: (id: string, faces: DiceFaces) => void;
+  rollAll: () => void;
 }
 
 // Criação do Store
 export const useDiceStore = create<DiceStore>((set) => ({
-    // Aplicação inicia com  um dado de seis faces
-  dices: [{id: crypto.randomUUID(), faces: 6}],
+// valor inicial de rollId que servirá para controlar o rolar de todos os dados simultaneamente
+  rollId: 0,
+
+  // Aplicação inicia com  um dado de seis faces
+  dices: [{ id: crypto.randomUUID(), faces: 6 }],
 
   // Lógica de adicoinar: sempre que clicar em "adicionar dado", será criado um dado de seis faces e com "id" aleatório (newDice)
   addDice: (faces = 6) => {
@@ -46,10 +51,14 @@ export const useDiceStore = create<DiceStore>((set) => ({
   updateDiceFaces: (id, faces) => {
     set((state) => ({
       dices: state.dices.map((dice) =>
-        dice.id === id
-          ? { ...dice, faces }
-          : dice
+        dice.id === id ? { ...dice, faces } : dice,
       ),
+    }));
+  },
+
+  rollAll: () => {
+    set((state) => ({
+      rollId: state.rollId + 1,
     }));
   },
 }));
