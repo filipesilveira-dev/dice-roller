@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Button from "../Button/Button";
 import rollDice from "@/utils/rollDice";
 import { motion } from "motion/react";
@@ -10,9 +10,9 @@ import { useDiceStore } from "@/store/useDiceStore";
 interface DiceProps {
   // só serão aceitos os dados com a quantidade de faces estabelecidas aqui
   faces: DiceFaces;
-  onRemove: ()=> void;
+  onRemove: () => void;
   isRollingAll: boolean;
-  onRollComplete: ()=> void;
+  onRollComplete: () => void;
 }
 
 interface Position {
@@ -60,7 +60,12 @@ const facePositions: Record<number, Position[]> = {
   ],
 };
 
-export default function Dice({ faces, onRemove, isRollingAll, onRollComplete }: DiceProps) {
+export default function Dice({
+  faces,
+  onRemove,
+  isRollingAll,
+  onRollComplete,
+}: DiceProps) {
   const [number, setNumber] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
   // guarda o valor gerado aleatório durante a animação e só atribui ao estado "number" ao final da animação com o "onAnimationComplete"
@@ -70,7 +75,8 @@ export default function Dice({ faces, onRemove, isRollingAll, onRollComplete }: 
   const rollId = useDiceStore((state) => state.rollId);
   const previousRollId = useRef(rollId);
 
-  function handleRoll() {
+  // Memoriza a referência da função dentro de useEffect: caso nada altere entre as re-renderizações, ela não será recriada
+  const handleRoll = useCallback(() => {
     // previne várias chamadas por cliques rápidos durante animação
     if (isRolling) {
       return;
@@ -84,7 +90,7 @@ export default function Dice({ faces, onRemove, isRollingAll, onRollComplete }: 
 
     // altera o estado, indicando que o dado está rolando
     setIsRolling(true);
-  }
+  }, [isRolling, faces]);
 
   const positions = facePositions[number];
 
@@ -96,7 +102,7 @@ export default function Dice({ faces, onRemove, isRollingAll, onRollComplete }: 
     previousRollId.current = rollId;
 
     handleRoll();
-  }, [rollId]);
+  }, [rollId, handleRoll]);
 
   return (
     <>
@@ -151,11 +157,12 @@ export default function Dice({ faces, onRemove, isRollingAll, onRollComplete }: 
         )}
       </motion.div>
 
-      <Button onClick={handleRoll} disabled={isRolling || isRollingAll}>Rolar dado</Button>
-       <Button type="button" onClick={onRemove}>
-              Remover
-            </Button>
-      
+      <Button onClick={handleRoll} disabled={isRolling || isRollingAll}>
+        Rolar dado
+      </Button>
+      <Button type="button" onClick={onRemove}>
+        Remover
+      </Button>
     </>
   );
 }

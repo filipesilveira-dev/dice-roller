@@ -54,21 +54,23 @@ function App() {
               faces={d.faces}
               onRemove={() => removeDice(d.id)}
               isRollingAll={isRollingAll}
-              onRollComplete = {handleRollComplete}
+              onRollComplete={handleRollComplete}
             />
           </div>
         ))}
       </div>
-      <Button
-        type="button"
-        onClick={() => {
-          rollAll();
-          setIsRollingAll(true);
-        }}
-        disabled={isRollingAll}
-      >
-        Rolar os dados{rollId}
-      </Button>
+      {dices.length !== 0 && (
+        <Button
+          type="button"
+          onClick={() => {
+            rollAll();
+            setIsRollingAll(true);
+          }}
+          disabled={isRollingAll}
+        >
+          Rolar os dados{rollId}
+        </Button>
+      )}
     </div>
   );
 }
