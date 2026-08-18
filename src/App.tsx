@@ -40,11 +40,14 @@ function App() {
     <div className="app">
       <h1 className="app-title">Dice Roller 🎲</h1>
 
+      {/* Mansegem exibida caso não haja nenhum dado em "dices" */}
       {dices.length === 0 && <p>Nenhum dado adicionado</p>}
 
       <div className="dice-list">
+
         {dices.map((d) => (
           <div className="dice-item" key={d.id}>
+            
             <DiceSelector
               value={d.faces}
               onChange={(faces) => updateDiceFaces(d.id, faces)}
@@ -60,18 +63,19 @@ function App() {
             />
           </div>
         ))}
+
       </div>
 
-        
-        
-
       <div className="button-container">
+
+        {/* Botão de adicionar dado */}
         <div className="dice-actions">
           <button type="button" onClick={() => addDice()}>
             Adicionar dado
           </button>
         </div>
-        {/* Botão só aparece se houver pelo menos um dado em "dices" */}
+
+        {/* Botão de rolar dados: só aparece se houver pelo menos um dado em "dices" */}
         {dices.length !== 0 && (
           <div className="roll-actions">
             <Button
@@ -86,6 +90,7 @@ function App() {
             </Button>
           </div>
         )}
+
       </div>
     </div>
   );
