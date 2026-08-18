@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 // importa o botão a ser testado
-import Button from "./Button";
+import Button from "../components/Button/Button";
 
 describe("Button", () => {
   it("deve renderizar o conteúdo recebido", () => {

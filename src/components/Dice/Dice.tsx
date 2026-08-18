@@ -107,7 +107,7 @@ export default function Dice({
   return (
     <>
       <motion.div
-        className="dice"
+        className={`dice ${faces > 6 ? "polyhedral" : ""}`}
         // initial={{ opacity: 0, y: 20 }}
         animate={
           // caso "isRolling" seja true, então ele fará rotações simulando o rolar do dado
@@ -153,16 +153,20 @@ export default function Dice({
             />
           ))
         ) : (
-          <span className="number">{number}</span>
+          <div className="dice-hexagon">
+            <span className="number">{number}</span>
+          </div>
         )}
       </motion.div>
 
-      <Button onClick={handleRoll} disabled={isRolling || isRollingAll}>
-        Rolar dado
-      </Button>
-      <Button type="button" onClick={onRemove}>
-        Remover
-      </Button>
+      <div className="dice-actions-individual">
+        <Button onClick={handleRoll} disabled={isRolling || isRollingAll}>
+          Rolar dado
+        </Button>
+        <Button type="button" onClick={onRemove} className="button button-danger">
+          Remover
+        </Button>
+      </div>
     </>
   );
 }

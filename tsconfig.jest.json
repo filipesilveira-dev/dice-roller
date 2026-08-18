@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.app.json", // Estende a config do seu app Vite
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2020",
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true
+  }
+}

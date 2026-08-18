@@ -68,6 +68,7 @@ Este projeto demonstrar conhecimento ou noções sobre as tecnologias utilizadas
 - **useRef():** (rerorço) hook do React que permite manter um valor entre renderizações sem provocar uma nova renderização quando esse valor muda. Utilizado em "pendingResult" para "guardar" o novo valor do dado durante a animação. A UI só atualiza ao final.
 - **União de literais:** utilizado para tipar as faces dos dados aceitos na aplicação. Estabelece um conjunto exato de valores específicos, como uma lista restrita de opções permitidas.
 - **crypto.randomUUID():** (reforço) API fornecida pelo navegador utilizada para gerar identificadores únicos.
+- **Key Reset Trick:** técnica utilizada para indicar que o componente Dice deve ser remontado caso seu "id" ou "faces" alterasse. Isso preveniu a quebra da aplicação ao selecionar um D6, após ter sorteado o número "17" em um D20. Com o "key={`${d.id}-${d.faces}`}", qunado o usuário altera a quantidade de faces, altera o valor da props "key", indicando que o componente deve ser montado novamente com seu valor original "1".
 
 ---
 
