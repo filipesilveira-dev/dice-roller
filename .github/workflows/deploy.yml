@@ -104,6 +104,10 @@ jobs:
           node-version: 22
           cache: npm
 
+      # Especifica a versão do npm a ser utilizada na máquina virtual (adicionada por conflitos de versões entre máquina local e GitHub Actions)
+      - name: Setup npm
+        run: npm install -g npm@11.6.2
+
       # Instala as dependências com base nas versões especificadas em package-lock.json
       - name: Install dependencies
         run: npm ci
