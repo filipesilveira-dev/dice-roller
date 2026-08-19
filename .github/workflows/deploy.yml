@@ -52,11 +52,17 @@ jobs:
           node-version: 22
           # Comando para salvar em cache arquivos já baixados
           cache: npm
+      
+      # Especifica a versão do npm a ser utilizada na máquina virtual (adicionada por conflitos de versões entre máquina local e GitHub Actions)
+      - name: Setup npm
+        run: npm install -g npm@11.6.2
+
+        # Verifica as versões do Node e do npm no GitHub Actions
       - name: Check Node and npm versions
         run: |
             node -v
             npm -v
-            
+
       # Terceiro passo: instalar as dependências especificadas no package-lock.json (onde estão as versões e informaçõs das dependências listadas em package.json)
       - name: Install dependencies
       # Diferentemente do "npm install", o "npm ci" é mais previsível e reproduzível por instalar as dependências com as exatas versões utilizadas no projeto
