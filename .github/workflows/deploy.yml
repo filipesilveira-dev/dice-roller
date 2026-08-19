@@ -1,0 +1,125 @@
+# Nome do workflow
+name: Pipeline CI/CD em GitHub Pages
+
+# Configura eventos
+on:
+  # Especifica o evento: "push"
+  push:
+    # Define quais as branches devem disparar
+    branches:
+      - main
+      # Só dispara o workflow se os arquivos nessas pastas mudarem
+    paths:
+      - "src/**"
+      - "public/**"
+      # Caso tenah alteração no próprio workflow
+      - ".github/workflows/**"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.ts"
+      - "tsconfig.json"
+      - "eslint.config.js"
+
+  # Permite executar o workflow manualmente pela interface do GitHub
+  workflow_dispatch:
+
+# Define as permissões do GITHUB_TOKEN terá durante a execução
+permissions:
+  # Permite o workflow ler o conteúido do repositório (necessário fazer o checkout do código)
+  contents: read
+  # Permite publicar o site no GitHub Pages
+  pages: write
+  # Permite que o workflow obtenha um OIDC ID token, utilizado pelo GitHub Actions para autenticação segura com determinados serviços do GitHub, incluindo o processo de deployment do Pages.
+  id-token: write
+
+  # Definição das tarefas que o workflow executará: build (+ lint), tests e deploy
+jobs:
+  # 1° job: build (+ lint)
+  build:
+    # Determina o sistema operacional da máquina virtual que executará o job.
+    runs-on: ubuntu-latest
+
+    # Lista de etapas executadas pelo job
+    steps:
+      # Primeiro passo: baixar o código do repositório dentro da máquina virtual
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Segundo passo: instalar/configurar o Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          # Comando para salvar em cache arquivos já baixados
+          cache: npm
+
+      # Terceiro passo: instalar as dependências especificadas no package-lock.json (onde estão as versões e informaçõs das dependências listadas em package.json)
+      - name: Install dependencies
+      # Diferentemente do "npm install", o "npm ci" é mais previsível e reproduzível por instalar as dependências com as exatas versões utilizadas no projeto
+        run: npm ci
+
+      # Quarto passo: execução do script "build" determinado no package.json
+      - name: Build
+      # Executa o Vite e gera a versão de produção dentro de "dist/". Obs: nesse projeto, o script build já executa o lint. Caso contrário, um outro job (lint) precisaria ser feito
+        run: npm run build
+
+      # Quinto passo: configuração do GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Sexto passo: pegar os arquivos que serão publicados e transformar em um "artifact" específico para o GitHub Pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Indica onde os arquivos que serão publicados estão (na pasta "dist/")
+          path: ./dist
+  # Obs: ao final desse job (build), o "artifact está preparado e armazenado"
+
+  # Segundo job: tests
+  tests:
+    # Especifica a máquina virtual novamente por ser um ambiente isolado do job anterior (build)
+    runs-on: ubuntu-latest
+    # Especifica que o job "build" precisa ter sido executado corretamente para avançar para "tests"
+    needs: build
+
+    steps:
+      # Baixa o código do repositório
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Configura o Node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Instala as dependências com base nas versões especificadas em package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # Roda o script do package.json
+      - name: Run tests
+      # Executa o Jest (os testes automatizados criados são executados aqui)
+        run: npm test
+  
+  # Terceiro job: deploy
+  deploy:
+    # Define o ambiente do GitHub no qual o deployment ocorrerá
+    environment:
+      name: github-pages
+      # Permite ao GitHub associar ao ambiente a URL onde o site foi publicado
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Especifica a máquina virtual que executará o deployment
+    runs-on: ubuntu-latest
+    # O deply depende dos jobs build e tests
+    needs:
+      - build
+      - tests
+
+    steps:
+      # Onde o deploy acontece: o artifact preparado anteriormente é publicado no GitHub pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
