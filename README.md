@@ -5,7 +5,9 @@ Aplicação web para simulação de rolagem de dados de RPG e jogos de tabuleiro
 O projeto permite adicionar múltiplos dados, configurar a quantidade de faces de cada um e realizar rolagens individuais ou simultâneas, com animações e interface responsiva.
 
 🔗 Aplicação: https://filipesilveira-dev.github.io/dice-roller/
+
 🔗 Repositório: https://github.com/filipesilveira-dev/dice-roller
+
 
 ---
 
@@ -132,6 +134,7 @@ O projeto é hospedado utilizando GitHub Pages.
 
 O processo de build e deploy é automatizado por meio do GitHub Actions. Alterações publicadas na branch main podem disparar o workflow responsável por gerar a aplicação de produção e disponibilizá-la no GitHub Pages.
 
+
 ## Pipeline
 
 O processo automatizado contempla, entre outras etapas:
@@ -188,15 +191,18 @@ Entre os principais conceitos trabalhados estão:
 
 Durante o desenvolvimento do projeto, diversos conceitos foram estudados e aplicados na prática.
 
+
 ## Versionamento semântico
 
 Compreensão da convenção formal utilizada para atribuição de números de versão a softwares, bibliotecas e APIs, seguindo o conceito de Semantic Versioning (SemVer).
+
 
 ## useRef()
 
 O hook `useRef()` permite manter um valor entre renderizações sem provocar uma nova renderização quando esse valor é alterado.
 
 No projeto, foi utilizado para armazenar o resultado pendente de uma rolagem durante a animação. Dessa forma, o resultado visual do dado somente é atualizado após a conclusão da animação.
+
 
 ## União de literais
 
@@ -206,9 +212,11 @@ Isso permite representar, por meio da tipagem, exatamente os dados aceitos pela 
 
 type DiceFaces = 4 | 6 | 8 | 10 | 12 | 20;
 
+
 ## crypto.randomUUID()
 
 A API `crypto.randomUUID()` foi utilizada para gerar identificadores únicos para os dados adicionados à aplicação.
+
 
 ## Key Reset Trick
 
@@ -220,6 +228,7 @@ Essa abordagem evita que o estado interno de um dado permaneça incompatível co
 
 Por exemplo, caso um D20 apresente o resultado `17` e seja posteriormente alterado para um D6, a remontagem do componente garante que seu estado inicial seja restabelecido.
 
+
 ## Middleware `persist` do Zustand
 
 O middleware `persist` do Zustand foi utilizado para implementar a persistência das configurações dos dados.
@@ -230,13 +239,16 @@ Atualmente, o projeto armazena no `localStorage` o array de dados configurados, 
 
 Os resultados das rolagens não são persistidos. Essa decisão mantém separadas as configurações permanentes dos dados e os resultados temporários das rolagens.
 
+
 ## Testes automatizados
 
 A utilização de **Jest** e **React Testing Library** permitiu introduzir testes automatizados ao projeto, verificando tanto funções de lógica quanto comportamentos de componentes React.
 
+
 ## CI/CD
 
 A configuração de **GitHub Actions** permitiu automatizar o processo de build e publicação da aplicação no GitHub Pages, tornando o deploy mais previsível e reproduzível.
+
 
 ---
 
@@ -248,4 +260,4 @@ A configuração de **GitHub Actions** permitiu automatizar o processo de build 
 
 # 👨‍💻 Autor
 
-**Filipe P. Silveira**
+**Filipe P. Silveira** | Desenvolvedor Front-end
