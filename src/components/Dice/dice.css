@@ -35,7 +35,7 @@
   height: 12px;
 
   border-radius: 50%;
-  background-color: #2563eb; /* Azul indigo do Sleek Nordic */
+  background-color: #2563eb; 
 
   justify-self: center;
   align-self: center;
@@ -73,4 +73,31 @@
   justify-content: center;
   gap: 8px;
   /* width: 100vw; */
+}
+
+@media (max-width: 575.98px) {
+  .dice {
+    width: 54px;
+    height: 54px;
+    padding: 6px;
+    margin-bottom: 10px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+  .dice-hexagon {
+    width: 44px;
+    height: 44px;
+  }
+  .dice-hexagon .number {
+    font-size: 1.1rem;
+  }
+  .dice-actions-individual {
+    gap: 4px;
+  }
+  .dice-actions-individual .button {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
 }

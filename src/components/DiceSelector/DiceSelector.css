@@ -52,3 +52,21 @@
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
+
+@media (max-width: 575.98px) {
+  .dice-selector {
+    margin-bottom: 8px;
+  }
+  .selector-instruction {
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+  }
+  .selector-buttons {
+    gap: 4px;
+  }
+  .selector-buttons button {
+    width: 24px;
+    height: 24px;
+    font-size: 0.65rem;
+  }
+}

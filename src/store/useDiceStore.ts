@@ -18,6 +18,8 @@ interface DiceStore {
   // Função que atualiza a quantidade de faces de um dado específico
   updateDiceFaces: (id: string, faces: DiceFaces) => void;
   rollAll: () => void;
+  // Função que atualiza o estado global com base no resultado "number" obtido após rolar o dado
+  updateDiceValue: (id: string, value: number) => void;
 }
 
 // Criação do Store
@@ -29,13 +31,14 @@ export const useDiceStore = create<DiceStore>()(
       rollId: 0,
 
       // Aplicação inicia com um dado de seis faces
-      dices: [{ id: crypto.randomUUID(), faces: 6 }],
+      dices: [{ id: crypto.randomUUID(), faces: 6, value: null }],
 
-      // Lógica de adicoinar: sempre que clicar em "adicionar dado", será criado um dado de seis faces e com "id" aleatório (newDice)
+      // Lógica de adicionar: sempre que clicar em "adicionar dado", será criado um dado de seis faces e com "id" aleatório (newDice)
       addDice: (faces = 6) => {
         const newDice: DiceConfig = {
           id: crypto.randomUUID(),
           faces,
+          value: null,
         };
 
         // Utiliza o setter para adicionar ao array "dices" o novo dado
@@ -55,7 +58,7 @@ export const useDiceStore = create<DiceStore>()(
       updateDiceFaces: (id, faces) => {
         set((state) => ({
           dices: state.dices.map((dice) =>
-            dice.id === id ? { ...dice, faces } : dice,
+            dice.id === id ? { ...dice, faces, value: null } : dice,
           ),
         }));
       },
@@ -66,6 +69,14 @@ export const useDiceStore = create<DiceStore>()(
           rollId: state.rollId + 1,
         }));
       },
+
+      // Atualiza o "value" após cada rolagem de dados dados
+      updateDiceValue: (id, value) =>
+        set((state) => ({
+          dices: state.dices.map((dice) =>
+            dice.id === id ? { ...dice, value } : dice,
+          ),
+        })),
     }),
 
     // Especifica o nome do armazenamento no localstorage e qual estado deve ser persistido
@@ -77,4 +88,3 @@ export const useDiceStore = create<DiceStore>()(
     },
   ),
 );
-

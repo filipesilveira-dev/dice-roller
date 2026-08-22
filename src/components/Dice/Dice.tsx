@@ -8,6 +8,7 @@ import type { DiceFaces } from "@/types/dice";
 import { useDiceStore } from "@/store/useDiceStore";
 
 interface DiceProps {
+  id: string,
   // só serão aceitos os dados com a quantidade de faces estabelecidas aqui
   faces: DiceFaces;
   onRemove: () => void;
@@ -61,6 +62,7 @@ const facePositions: Record<number, Position[]> = {
 };
 
 export default function Dice({
+  id,
   faces,
   onRemove,
   isRollingAll,
@@ -74,6 +76,8 @@ export default function Dice({
   // useDiceStore
   const rollId = useDiceStore((state) => state.rollId);
   const previousRollId = useRef(rollId);
+  // atualiza "value" com o "pendingResult,current", mesmo valor de "number"
+  const updateDiceValue = useDiceStore((state) => state.updateDiceValue);
 
   // Memoriza a referência da função dentro de useEffect: caso nada altere entre as re-renderizações, ela não será recriada
   const handleRoll = useCallback(() => {
@@ -85,7 +89,7 @@ export default function Dice({
     // gera o número aleatório
     const result = rollDice(faces);
 
-    // salva o número aleatório com useRef()
+    // salva o número aleatório com useRef() que será adicionado a "number" ao final da animação
     pendingResult.current = result;
 
     // altera o estado, indicando que o dado está rolando
@@ -134,6 +138,7 @@ export default function Dice({
         onAnimationComplete={() => {
           if (isRolling) {
             setNumber(pendingResult.current);
+            updateDiceValue(id, pendingResult.current);
             setIsRolling(false);
             // chama a função do pai que altera "isRollingAll" de volta para "false"
             onRollComplete();
@@ -163,7 +168,11 @@ export default function Dice({
         <Button onClick={handleRoll} disabled={isRolling || isRollingAll}>
           Rolar dado
         </Button>
-        <Button type="button" onClick={onRemove} className="button button-danger">
+        <Button
+          type="button"
+          onClick={onRemove}
+          className="button button-danger"
+        >
           Remover
         </Button>
       </div>
