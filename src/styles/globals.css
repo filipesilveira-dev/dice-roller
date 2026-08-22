@@ -336,7 +336,7 @@ body {
   }
 
   .dice-item {
-    flex: 0 1 calc(% - 15px); /* 4 por linha na coluna principal */
+    flex: 0 1 calc(25% - 15px); /* 4 por linha na coluna principal */
   }
 }
 
