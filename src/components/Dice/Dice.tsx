@@ -8,7 +8,7 @@ import type { DiceFaces } from "@/types/dice";
 import { useDiceStore } from "@/store/useDiceStore";
 
 interface DiceProps {
-  id: string,
+  id: string;
   // só serão aceitos os dados com a quantidade de faces estabelecidas aqui
   faces: DiceFaces;
   onRemove: () => void;
@@ -16,50 +16,50 @@ interface DiceProps {
   onRollComplete: () => void;
 }
 
-interface Position {
-  row: number;
-  column: number;
-}
+// interface Position {
+//   row: number;
+//   column: number;
+// }
 
 // só deve ser utilizado se faces === 6
-const facePositions: Record<number, Position[]> = {
-  1: [{ row: 2, column: 2 }],
+// const facePositions: Record<number, Position[]> = {
+//   1: [{ row: 2, column: 2 }],
 
-  2: [
-    { row: 1, column: 1 },
-    { row: 3, column: 3 },
-  ],
+//   2: [
+//     { row: 1, column: 1 },
+//     { row: 3, column: 3 },
+//   ],
 
-  3: [
-    { row: 1, column: 1 },
-    { row: 2, column: 2 },
-    { row: 3, column: 3 },
-  ],
+//   3: [
+//     { row: 1, column: 1 },
+//     { row: 2, column: 2 },
+//     { row: 3, column: 3 },
+//   ],
 
-  4: [
-    { row: 1, column: 1 },
-    { row: 1, column: 3 },
-    { row: 3, column: 1 },
-    { row: 3, column: 3 },
-  ],
+//   4: [
+//     { row: 1, column: 1 },
+//     { row: 1, column: 3 },
+//     { row: 3, column: 1 },
+//     { row: 3, column: 3 },
+//   ],
 
-  5: [
-    { row: 1, column: 1 },
-    { row: 1, column: 3 },
-    { row: 2, column: 2 },
-    { row: 3, column: 1 },
-    { row: 3, column: 3 },
-  ],
+//   5: [
+//     { row: 1, column: 1 },
+//     { row: 1, column: 3 },
+//     { row: 2, column: 2 },
+//     { row: 3, column: 1 },
+//     { row: 3, column: 3 },
+//   ],
 
-  6: [
-    { row: 1, column: 1 },
-    { row: 2, column: 1 },
-    { row: 3, column: 1 },
-    { row: 1, column: 3 },
-    { row: 2, column: 3 },
-    { row: 3, column: 3 },
-  ],
-};
+//   6: [
+//     { row: 1, column: 1 },
+//     { row: 2, column: 1 },
+//     { row: 3, column: 1 },
+//     { row: 1, column: 3 },
+//     { row: 2, column: 3 },
+//     { row: 3, column: 3 },
+//   ],
+// };
 
 export default function Dice({
   id,
@@ -68,7 +68,25 @@ export default function Dice({
   isRollingAll,
   onRollComplete,
 }: DiceProps) {
-  const [number, setNumber] = useState(1);
+  // 1. Busca a lista de dados da store do Zustand
+  const dices = useDiceStore((state) => state.dices);
+
+  // 2. Encontra o valor salvo para ESTE dado específico (usando o id)
+  const [number, setNumber] = useState<number>(() => {
+    const currentDice = dices?.find((d) => d.id === id);
+    
+    // Se o dado não existir, ou se o 'value' for null/undefined, assume 1
+    if (
+      !currentDice ||
+      currentDice.value === null ||
+      currentDice.value === undefined
+    ) {
+      return 1;
+    }
+
+    return currentDice.value;
+  });
+
   const [isRolling, setIsRolling] = useState(false);
   // guarda o valor gerado aleatório durante a animação e só atribui ao estado "number" ao final da animação com o "onAnimationComplete"
   const pendingResult = useRef(number);
@@ -96,7 +114,7 @@ export default function Dice({
     setIsRolling(true);
   }, [isRolling, faces]);
 
-  const positions = facePositions[number];
+  // const positions = facePositions[number];
 
   useEffect(() => {
     if (rollId === previousRollId.current) {
@@ -146,17 +164,11 @@ export default function Dice({
         }}
       >
         {faces === 6 || faces === 4 ? (
-          // {/* Sendo assim, quando for clicado, um novo "number" será gerado. Supondo que seja gerado o número "4", então será selecionada a chave "4" de "facePositions" e positions" recebe um array com quatro "objetos", representando cada ponto do dado. No primeiro objeto de "positions" a ser mapeado, serão extraídos os valores das chaves "row" e "column", no caso respectivamente "1" e "1". Com isso será gerada um key única (exigÊncia do React) e em "style" definirão a linha e a coluna no componente Dice, estilizado como uma matriz 3x3, onde será criado o span; Aqui, no exemplo, seria na linha 1, coluna 1, pois o número "4" em bolinhas ocupar esse e mais outros três espaços. Se não houvesse a especificação em "style" seriam criadas quatro bolinhas, uma para cada objeto da chave de "positions" selecionada, mas uma seguida da outra, sem a correlação linha/coluna */}
-          positions.map(({ row, column }) => (
-            <span
-              key={`${row}-${column}`}
-              className="dot"
-              style={{
-                gridRow: row,
-                gridColumn: column,
-              }}
-            />
-          ))
+          <img
+            src={`${import.meta.env.BASE_URL}dado_face_${number}.png`}
+            alt={`Imagem dado com valor ${number}`}
+            className="dice-image"
+          />
         ) : (
           <div className="dice-hexagon">
             <span className="number">{number}</span>
